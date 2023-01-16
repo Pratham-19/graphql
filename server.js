@@ -1,13 +1,14 @@
 const express = require('express');
-const app = express();
+const { graphqlHTTP } = require('express-graphql');
 const port = process.env.PORT || 3002;
 const schema = require("./schema/schema")
+const app = express();
 
-app.get('/',(req,res)=>{
-    res.status(200).json({
-        message:"Alive"
-    })
-})
+app.use('/graphql', graphqlHTTP({
+    schema,
+    graphiql: true
+}))
+
 app.listen(port,()=>{
     console.log("Listening on port",port);
 })
